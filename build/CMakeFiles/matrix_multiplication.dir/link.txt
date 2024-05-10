@@ -1,1 +1,0 @@
-/usr/bin/g++  -O1 -g CMakeFiles/matrix_multiplication.dir/main.cpp.o -o Debug/matrix_multiplication   -L/usr/local/lib  -L/home/wyq/Project/LLM-infra/./lib  -Wl,-rpath,/usr/local/lib:/home/wyq/Project/LLM-infra/./lib -lpthread 

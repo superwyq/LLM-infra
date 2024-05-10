@@ -1,8 +1,10 @@
 # Ignore the build directory
-./build
+build
+out
 
 # Ignore the .vscode directory
 .vscode
+.vs
 
 # Ignore the .idea directory
 .idea
