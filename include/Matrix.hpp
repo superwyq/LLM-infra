@@ -28,13 +28,37 @@ class Matrix {
             }
             delete[] data;
         }
-        int rows() const {
-            return __rows;
-        }
-        int cols() const {
-            return __cols;
-        }
 
+        int rows() const { return __rows; }
+        int cols() const { return __cols; }
+        void padding(bool row, T value){
+            if(row){
+                T** new_data = new T*[__rows+1];
+                for (int i = 0; i < __rows; i++) {
+                    new_data[i] = data[i];
+                }
+                new_data[__rows] = new T[__cols];
+                for (int i = 0; i < __cols; i++) {
+                    new_data[__rows][i] = value;
+                }
+                delete[] data;
+                data = new_data;
+                __rows++;
+            }else{
+                T** new_data = new T*[__rows];
+                for (int i = 0; i < __rows; i++) {
+                    new_data[i] = new T[__cols+1];
+                    std::copy(data[i], data[i] + __cols, new_data[i]);
+                    new_data[i][__cols] = value;
+                }
+                for (int i = 0; i < __rows; i++) {
+                    delete[] data[i];
+                }
+                delete[] data;
+                data = new_data;
+                __cols++;
+            }
+        }
         void fill(T value) {
             for (int i = 0; i < __rows; i++) {
                 for (int j = 0; j < __cols; j++) {
@@ -42,28 +66,12 @@ class Matrix {
                 }
             }
         }
-        void randomize() {
-            for (int i = 0; i < __rows; i++) {
-                for (int j = 0; j < __cols; j++) {
-                    data[i][j] = rand() % 100;
-                }
-            }
-        }
         void zero() {
-            fill(0);
-        }
-        void diagonal(T* values) {
-            for (int i = 0; i < __rows; i++) {
-                for (int j = 0; j < __cols; j++) {
-                    if (i == j) {
-                        data[i][j] = values[i];
-                    } else {
-                        data[i][j] = 0;
-                    }
-                }
+            for(int i = 0; i < __rows; i++) {
+                std::fill(data[i], data[i] + __cols, 0);
             }
         }
-        Matrix split(int row_start, int row_end, int col_start, int col_end) const {
+        Matrix<T> split(int row_start, int row_end, int col_start, int col_end) const {
             Matrix<T> result(row_end - row_start, col_end - col_start);
             for (int i = row_start; i < row_end; i++) {
                 for (int j = col_start; j < col_end; j++) {
@@ -72,6 +80,7 @@ class Matrix {
             }
             return result;
         }
+
         void concatenate(const Matrix<T>& other, int position, bool row) {
             if (row) {
                 int new_rows = __rows + other.rows();
@@ -84,9 +93,6 @@ class Matrix {
                 }
                 for (int i = 0; i < other.rows(); i++) {
                     std::copy(other.data[i], other.data[i] + other.cols(), new_data[position + i]);
-                }
-                for (int i = position + other.rows(); i < new_rows; i++) {
-                    std::copy(data[i - other.rows()], data[i - other.rows()] + __cols, new_data[i]);
                 }
                 for (int i = 0; i < __rows; i++) {
                     delete[] data[i];
@@ -108,7 +114,6 @@ class Matrix {
                 data = new_data;
             }
         }
-
         void operator=(const Matrix<T>& other) {
             for (int i = 0; i < __rows; i++) {
                 std::copy(other.data[i], other.data[i] + __cols, data[i]);

@@ -1,6 +1,4 @@
 #include <iostream>
-
-#include "Matrix.hpp"
 #include "FunctionDecorator.hpp"
 #include "multiply_algorithm.hpp"
 

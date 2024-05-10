@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/wyq/Project/LLM-infra/build",
+  "command": "/usr/bin/g++  -I/home/wyq/Project/LLM-infra/./include  -O1 -g -o CMakeFiles/matrix_multiplication.dir/main.cpp.o -c /home/wyq/Project/LLM-infra/main.cpp",
+  "file": "/home/wyq/Project/LLM-infra/main.cpp"
+}
+]
